@@ -31,7 +31,10 @@ function Dashboard() {
   const handleLogout = () => {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("idToken");
-    navigate("/");
+    const url = window.location.origin;
+    window.location.href =
+      "https://dev-kz2fpaq4oiht7zgs.us.auth0.com/v2/logout?client_id=yUnBLFVRvSWGNFe8Kt1BxlRBBKf6GFNB&returnTo=" +
+      url;
   };
 
   useEffect(() => {
@@ -201,7 +204,7 @@ function Dashboard() {
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
               Hi! {username}
-              <a href="" onClick={handleLogout} className="ms-3">
+              <a onClick={handleLogout} className="ms-3">
                 Logout
               </a>
             </Navbar.Text>
