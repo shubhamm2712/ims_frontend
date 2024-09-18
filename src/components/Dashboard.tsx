@@ -21,7 +21,7 @@ import AddTransaction from "./add_transaction_components/AddTransaction";
 import ViewTransactions from "./get_transaction_components/ViewTransactions";
 
 interface customPayload {
-  nickname: string;
+  username: string;
 }
 
 function Dashboard() {
@@ -41,7 +41,7 @@ function Dashboard() {
     }
     const storedIdToken = localStorage.getItem("idToken");
     if (storedIdToken) {
-      setUsername(jwtDecode<customPayload>(storedIdToken).nickname);
+      setUsername(jwtDecode<customPayload>(storedIdToken).username);
     } else {
       navigate("/");
     }
