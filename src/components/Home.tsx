@@ -23,7 +23,7 @@ function Home() {
   return (
     <>
       <Navbar
-        expand="lg"
+        expand="sm"
         className="bg-body-tertiary"
         bg="primary"
         data-bs-theme="dark"

@@ -21,7 +21,8 @@ import AddTransaction from "./add_transaction_components/AddTransaction";
 import ViewTransactions from "./get_transaction_components/ViewTransactions";
 
 interface customPayload {
-  username: string;
+  username?: string;
+  name?: string;
 }
 
 function Dashboard() {
@@ -44,7 +45,12 @@ function Dashboard() {
     }
     const storedIdToken = localStorage.getItem("idToken");
     if (storedIdToken) {
-      setUsername(jwtDecode<customPayload>(storedIdToken).username);
+      const decodedIdToken = jwtDecode<customPayload>(storedIdToken);
+      if (decodedIdToken.username) {
+        setUsername(decodedIdToken.username);
+      } else if (decodedIdToken.name) {
+        setUsername(decodedIdToken.name);
+      }
     } else {
       navigate("/");
     }
@@ -190,7 +196,7 @@ function Dashboard() {
   return (
     <>
       <Navbar
-        expand="lg"
+        expand="sm"
         className="bg-body-tertiary"
         bg="primary"
         data-bs-theme="dark"
