@@ -179,11 +179,11 @@ function DeletedCustomers() {
   );
 
   return (
-    <div className="mt-2">
+    <div>
       {!showCustomer && (
         <>
+          <h2 className="mt-2">Disabled Customers</h2>
           {showAlert && alertMessage !== "" && alertMessageBox}
-          <h2>Disabled Customers</h2>
 
           {customers.length > 0 && disabledTable}
           {customers.length == 0 && <h6 className="mt-2">No customers here</h6>}

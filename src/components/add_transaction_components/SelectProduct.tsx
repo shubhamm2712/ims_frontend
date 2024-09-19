@@ -1,12 +1,4 @@
-import {
-  Alert,
-  Button,
-  Col,
-  Container,
-  Form,
-  Row,
-  Table,
-} from "react-bootstrap";
+import { Alert, Button, Form, Table } from "react-bootstrap";
 import { Product, Transaction, TransactionItem } from "../../models/models";
 import { useEffect, useState } from "react";
 import { apiCall } from "../../utils/apiCall";
@@ -158,60 +150,42 @@ function SelectProduct({
 
   const selectProductPage = (
     <>
-      <Container className="mt-4">
-        <Row>
-          <Col></Col>
-          <Col sm={10}>
-            <h2>Transaction</h2>
-            <h6>Type: {transaction.buyOrSell}</h6>
-            <h6>Total Amount: ${transaction.totalAmount}</h6>
-            <h2 className="mt-4">Products</h2>
-            {currentAlert && (
-              <Alert
-                className="alert alert-danger"
-                onClose={() => {
-                  setCurrentAlert("");
-                }}
-                dismissible
-              >
-                {currentAlert}
-              </Alert>
-            )}
-            {currentSelectedProducts.length > 0 && selectedProductsTable}
-            {currentSelectedProducts.length == 0 && (
-              <h6>No products selected</h6>
-            )}
-            <Form.Group className="mt-4">
-              <div className="d-flex">
-                <div className="me-auto">
-                  <Button
-                    variant="secondary"
-                    type="button"
-                    onClick={onPrevious}
-                  >
-                    Back
-                  </Button>
-                </div>
-                <div className="ms-auto me-auto">
-                  <Button
-                    variant="primary"
-                    type="button"
-                    onClick={handleAddProduct}
-                  >
-                    Add Product
-                  </Button>
-                </div>
-                <div className="ms-auto">
-                  <Button variant="primary" type="button" onClick={handleNext}>
-                    Next
-                  </Button>
-                </div>
-              </div>
-            </Form.Group>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container>
+      <h2 className="mt-2">Transaction</h2>
+      <h6>Type: {transaction.buyOrSell}</h6>
+      <h6>Total Amount: ${transaction.totalAmount}</h6>
+      <h2 className="mt-4">Products</h2>
+      {currentAlert && (
+        <Alert
+          className="alert alert-danger"
+          onClose={() => {
+            setCurrentAlert("");
+          }}
+          dismissible
+        >
+          {currentAlert}
+        </Alert>
+      )}
+      {currentSelectedProducts.length > 0 && selectedProductsTable}
+      {currentSelectedProducts.length == 0 && <h6>No products selected</h6>}
+      <Form.Group className="mt-4">
+        <div className="d-flex">
+          <div className="me-auto">
+            <Button variant="secondary" type="button" onClick={onPrevious}>
+              Back
+            </Button>
+          </div>
+          <div className="ms-auto me-auto">
+            <Button variant="primary" type="button" onClick={handleAddProduct}>
+              Add Product
+            </Button>
+          </div>
+          <div className="ms-auto">
+            <Button variant="primary" type="button" onClick={handleNext}>
+              Next
+            </Button>
+          </div>
+        </div>
+      </Form.Group>
     </>
   );
 

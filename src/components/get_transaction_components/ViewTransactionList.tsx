@@ -138,84 +138,72 @@ function ViewTransactionList({ portfolio, onBack }: Props) {
   }
 
   const list = (
-    <Container>
+    <Container fluid className="p-0">
+      <p className="mt-2">
+        <a onClick={onBack} style={{ color: "black", cursor: "pointer" }}>
+          {"< "}Back
+        </a>
+      </p>
+      <h2 className="mt-2">Transactions</h2>
+      {alertMessage && (
+        <Alert
+          className="alert alert-danger"
+          onClose={() => {
+            setAlertMessage("");
+          }}
+          dismissible
+        >
+          {alertMessage}
+        </Alert>
+      )}
+      <h4 className="mt-2">Summary</h4>
       <Row>
-        <Col></Col>
-        <Col md={10}>
-          <p className="mt-2 mb-2">
-            <a onClick={onBack} style={{ color: "black", cursor: "pointer" }}>
-              {"< "}Back
-            </a>
-          </p>
-          <h2>Transactions</h2>
-          {alertMessage && (
-            <Alert
-              className="alert alert-danger"
-              onClose={() => {
-                setAlertMessage("");
-              }}
-              dismissible
-            >
-              {alertMessage}
-            </Alert>
-          )}
-          <h4 className="mt-2">Summary</h4>
+        <Col md={6}>
           <Row>
-            <Col md={6}>
-              <Row>
-                <Col>
-                  <strong>Buy Amount: </strong>
-                </Col>
-                <Col>
-                  $
-                  {portfolio.buyAmount
-                    ? portfolio.buyAmount.toFixed(2)
-                    : "0.00"}
-                </Col>
-              </Row>
+            <Col>
+              <strong>Buy Amount: </strong>
             </Col>
-            <Col md={6}>
-              <Row>
-                <Col>
-                  <strong>Sell Amount: </strong>
-                </Col>
-                <Col>
-                  $
-                  {portfolio.sellAmount
-                    ? portfolio.sellAmount.toFixed(2)
-                    : "0.00"}
-                </Col>
-              </Row>
+            <Col>
+              ${portfolio.buyAmount ? portfolio.buyAmount.toFixed(2) : "0.00"}
             </Col>
           </Row>
-          <Row>
-            <Col md={6}>
-              <Row>
-                <Col>
-                  <strong>Start Date: </strong>
-                </Col>
-                <Col>{portfolio.startDate}</Col>
-              </Row>
-            </Col>
-            <Col md={6}>
-              <Row>
-                <Col>
-                  <strong>End Date: </strong>
-                </Col>
-                <Col>{portfolio.endDate}</Col>
-              </Row>
-            </Col>
-          </Row>
-          {portfolio.transactionsList &&
-            portfolio.transactionsList.length > 0 &&
-            transactionTable}
-          {(!portfolio.transactionsList ||
-            portfolio.transactionsList.length == 0) && (
-            <h6 className="mt-2">No transactions here</h6>
-          )}
         </Col>
-        <Col></Col>
+        <Col md={6}>
+          <Row>
+            <Col>
+              <strong>Sell Amount: </strong>
+            </Col>
+            <Col>
+              ${portfolio.sellAmount ? portfolio.sellAmount.toFixed(2) : "0.00"}
+            </Col>
+          </Row>
+        </Col>
       </Row>
+      <Row>
+        <Col md={6}>
+          <Row>
+            <Col>
+              <strong>Start Date: </strong>
+            </Col>
+            <Col>{portfolio.startDate}</Col>
+          </Row>
+        </Col>
+        <Col md={6}>
+          <Row>
+            <Col>
+              <strong>End Date: </strong>
+            </Col>
+            <Col>{portfolio.endDate}</Col>
+          </Row>
+        </Col>
+      </Row>
+      {portfolio.transactionsList &&
+        portfolio.transactionsList.length > 0 &&
+        transactionTable}
+      {(!portfolio.transactionsList ||
+        portfolio.transactionsList.length == 0) && (
+        <h6 className="mt-2">No transactions here</h6>
+      )}
     </Container>
   );
 

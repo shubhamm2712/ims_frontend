@@ -1,5 +1,5 @@
 import { Product } from "../../models/models";
-import { Card, Container, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons/faPenToSquare";
 import { useState } from "react";
@@ -36,10 +36,10 @@ function ViewProduct({
     ></UpdateProduct>
   );
   const viewProduct = (
-    <Container className="mt-4">
+    <>
       {backSign && (
         <>
-          <p className="mt-2 mb-2">
+          <p className="mt-2">
             <a
               onClick={handleCloseProduct}
               style={{ color: "black", cursor: "pointer" }}
@@ -49,7 +49,7 @@ function ViewProduct({
           </p>
         </>
       )}
-      <Card>
+      <Card className="mt-2">
         <Card.Header>
           <h4 className="d-flex">
             Product Details{" "}
@@ -114,7 +114,7 @@ function ViewProduct({
           </Row>
         </Card.Body>
       </Card>
-    </Container>
+    </>
   );
 
   return (

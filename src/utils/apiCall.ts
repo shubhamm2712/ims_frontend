@@ -20,6 +20,13 @@ export async function apiCall<T>(method: string, endpoint: string, body?: object
             headers,
             body: body ? JSON.stringify(body) : undefined,
         });
+
+        if(response.status == 401) {
+            localStorage.removeItem("accessToken");
+            localStorage.removeItem("idToken");
+            const url = window.location.origin;
+            window.location.href = "https://dev-kz2fpaq4oiht7zgs.us.auth0.com/v2/logout?client_id=yUnBLFVRvSWGNFe8Kt1BxlRBBKf6GFNB&returnTo=" + url;
+        }
         
         const result = await response.json();
         

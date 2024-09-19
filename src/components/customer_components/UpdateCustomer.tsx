@@ -70,145 +70,135 @@ function UpdateCustomer({ customer, onCancel, onUpdated }: Props) {
 
   return (
     <>
-      <Container className="mt-3">
-        <Row>
-          <Col></Col>
-          <Col sm={8}>
-            <div>
-              <h2>Update Customer</h2>
+      <div>
+        <h2 className="mt-2">Update Customer</h2>
 
-              {alertMessage && (
-                <Alert
-                  className="alert alert-danger"
-                  onClose={() => {
-                    setAlertMessage("");
-                  }}
-                  dismissible
-                >
-                  {alertMessage}
-                </Alert>
-              )}
+        {alertMessage && (
+          <Alert
+            className="alert alert-danger"
+            onClose={() => {
+              setAlertMessage("");
+            }}
+            dismissible
+          >
+            {alertMessage}
+          </Alert>
+        )}
 
-              <form onSubmit={handleSubmit}>
-                <div className="mb-3">
-                  <label htmlFor="name" className="form-label">
-                    Customer Name
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="name"
-                    name="name"
-                    value={customerData.name || ""}
-                    onChange={(event) => {
-                      handleChange(event.target.name, event.target.value);
-                    }}
-                    required
-                  />
-                </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="name" className="form-label">
+              Customer Name
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="name"
+              name="name"
+              value={customerData.name || ""}
+              onChange={(event) => {
+                handleChange(event.target.name, event.target.value);
+              }}
+              required
+            />
+          </div>
 
-                <div className="mb-3">
-                  <label htmlFor="address" className="form-label">
-                    Customer Address
-                  </label>
-                  <textarea
-                    className="form-control"
-                    id="address"
-                    name="address"
-                    value={customerData.address || ""}
-                    onChange={(event) => {
-                      handleChange(event.target.name, event.target.value);
-                    }}
-                  />
-                </div>
+          <div className="mb-3">
+            <label htmlFor="address" className="form-label">
+              Customer Address
+            </label>
+            <textarea
+              className="form-control"
+              id="address"
+              name="address"
+              value={customerData.address || ""}
+              onChange={(event) => {
+                handleChange(event.target.name, event.target.value);
+              }}
+            />
+          </div>
 
-                <div className="mb-3">
-                  <label htmlFor="phone" className="form-label">
-                    Customer Phone
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="phone"
-                    name="phone"
-                    value={customerData.phone || ""}
-                    onChange={(event) => {
-                      handleChange(event.target.name, event.target.value);
-                    }}
-                  />
-                </div>
+          <div className="mb-3">
+            <label htmlFor="phone" className="form-label">
+              Customer Phone
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="phone"
+              name="phone"
+              value={customerData.phone || ""}
+              onChange={(event) => {
+                handleChange(event.target.name, event.target.value);
+              }}
+            />
+          </div>
 
-                <div className="mb-3">
-                  <label htmlFor="taxNumber" className="form-label">
-                    Tax Number
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="taxNumber"
-                    name="taxNumber"
-                    value={customerData.taxNumber || ""}
-                    onChange={(event) => {
-                      handleChange(event.target.name, event.target.value);
-                    }}
-                  />
-                </div>
+          <div className="mb-3">
+            <label htmlFor="taxNumber" className="form-label">
+              Tax Number
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="taxNumber"
+              name="taxNumber"
+              value={customerData.taxNumber || ""}
+              onChange={(event) => {
+                handleChange(event.target.name, event.target.value);
+              }}
+            />
+          </div>
 
-                <div className="mb-3">
-                  <label htmlFor="metaData" className="form-label">
-                    Metadata
-                  </label>
-                  <input
-                    type="text"
-                    className="form-control"
-                    id="metaData"
-                    name="metaData"
-                    value={customerData.metaData || ""}
-                    onChange={(event) => {
-                      handleChange(event.target.name, event.target.value);
-                    }}
-                  />
-                </div>
+          <div className="mb-3">
+            <label htmlFor="metaData" className="form-label">
+              Metadata
+            </label>
+            <input
+              type="text"
+              className="form-control"
+              id="metaData"
+              name="metaData"
+              value={customerData.metaData || ""}
+              onChange={(event) => {
+                handleChange(event.target.name, event.target.value);
+              }}
+            />
+          </div>
 
-                <div className="mb-3">
-                  <Container>
-                    <Row>
-                      <Col>
-                        <label className="form-label">
-                          Used in Transactions
-                        </label>
-                        {": "}
-                        <strong>
-                          {customer.usedInTransaction == 1 ? "Yes" : "No"}
-                        </strong>
-                      </Col>
-                    </Row>
-                  </Container>
-                </div>
+          <div className="mb-3">
+            <Container>
+              <Row>
+                <Col>
+                  <label className="form-label">Used in Transactions</label>
+                  {": "}
+                  <strong>
+                    {customer.usedInTransaction == 1 ? "Yes" : "No"}
+                  </strong>
+                </Col>
+              </Row>
+            </Container>
+          </div>
 
-                <div className="mb-3">
-                  <button
-                    type="button"
-                    onClick={handleSubmit}
-                    className="btn btn-primary"
-                  >
-                    Update Customer
-                  </button>
+          <div className="mb-3">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="btn btn-primary"
+            >
+              Update Customer
+            </button>
 
-                  <button
-                    type="button"
-                    onClick={onCancel}
-                    className="btn btn-secondary ms-3"
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            </div>
-          </Col>
-          <Col></Col>
-        </Row>
-      </Container>
+            <button
+              type="button"
+              onClick={onCancel}
+              className="btn btn-secondary ms-3"
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
+      </div>
     </>
   );
 }

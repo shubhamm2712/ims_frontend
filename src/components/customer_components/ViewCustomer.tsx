@@ -36,10 +36,10 @@ function ViewCustomer({
     ></UpdateCustomer>
   );
   const viewCustomer = (
-    <Container className="mt-4">
+    <Container className="p-0" fluid>
       {backSign && (
         <>
-          <p className="mt-2 mb-2">
+          <p className="mt-2">
             <a
               onClick={handleCloseCustomer}
               style={{ color: "black", cursor: "pointer" }}
@@ -49,7 +49,7 @@ function ViewCustomer({
           </p>
         </>
       )}
-      <Card>
+      <Card className="mt-2">
         <Card.Header>
           <h4 className="d-flex">
             Customer Details{" "}

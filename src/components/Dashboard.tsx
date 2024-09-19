@@ -4,9 +4,11 @@ import {
   Col,
   Container,
   ListGroup,
+  Nav,
   Navbar,
   Offcanvas,
   Row,
+  Stack,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
@@ -218,65 +220,138 @@ function Dashboard() {
         </Container>
       </Navbar>
 
-      <Container className="mt-5 pt-3" fluid>
+      <Container className="mt-5 pt-0" fluid>
         <Row>
-          <Col>
-            <Button variant="outline-dark" className="" onClick={handleShow}>
-              ☰
-            </Button>
-            <Offcanvas
-              show={show}
-              onHide={handleClose}
-              // responsive="md"
-              placement="start"
-            >
-              <Offcanvas.Header closeButton>
-                <Offcanvas.Title className="mt-2">Dashboard</Offcanvas.Title>
-              </Offcanvas.Header>
-              <Offcanvas.Body className="mt-2 ps-0 pe-0">
-                <ListGroup>
-                  <ListGroup.Item
-                    action
-                    onClick={() =>
-                      clickedMenuItem(
-                        setProductMenuSelected,
-                        productMenuSelected
-                      )
-                    }
-                  >
-                    Products / Inventory
-                  </ListGroup.Item>
-                  {productMenuSelected && productMenuItems}
-                  <ListGroup.Item
-                    action
-                    onClick={() =>
-                      clickedMenuItem(
-                        setCustomerMenuSelected,
-                        customerMenuSelected
-                      )
-                    }
-                  >
-                    Customers
-                  </ListGroup.Item>
-                  {customerMenuSelected && customerMenuItems}
-                  <ListGroup.Item
-                    action
-                    onClick={() =>
-                      clickedMenuItem(
-                        setTransactionMenuSelected,
-                        transactionsMenuSelected
-                      )
-                    }
-                  >
-                    Transactions
-                  </ListGroup.Item>
-                  {transactionsMenuSelected && transactionMenuItems}
-                </ListGroup>
-              </Offcanvas.Body>
-            </Offcanvas>
+          <Col lg={3} md={1} className="p-0">
+            <div className="d-none d-lg-block">
+              <Navbar
+                bg="light"
+                className="flex-column vh-100"
+                style={{ width: "100%" }}
+              >
+                <Container fluid className="p-0">
+                  <Stack direction="vertical" gap={3}>
+                    <Navbar.Brand href="#" className="ps-3 pt-4">
+                      Dashboard
+                    </Navbar.Brand>
+                    <Nav className="flex-column">
+                      <ListGroup>
+                        <ListGroup.Item
+                          action
+                          onClick={() =>
+                            clickedMenuItem(
+                              setProductMenuSelected,
+                              productMenuSelected
+                            )
+                          }
+                        >
+                          Products / Inventory
+                        </ListGroup.Item>
+                        {productMenuSelected && productMenuItems}
+
+                        <ListGroup.Item
+                          action
+                          onClick={() =>
+                            clickedMenuItem(
+                              setCustomerMenuSelected,
+                              customerMenuSelected
+                            )
+                          }
+                        >
+                          Customers
+                        </ListGroup.Item>
+                        {customerMenuSelected && customerMenuItems}
+
+                        <ListGroup.Item
+                          action
+                          onClick={() =>
+                            clickedMenuItem(
+                              setTransactionMenuSelected,
+                              transactionsMenuSelected
+                            )
+                          }
+                        >
+                          Transactions
+                        </ListGroup.Item>
+                        {transactionsMenuSelected && transactionMenuItems}
+                      </ListGroup>
+                    </Nav>
+                  </Stack>
+                </Container>
+              </Navbar>
+            </div>
+            <div className="d-lg-none">
+              <Button
+                variant="outline-dark"
+                className="mt-3 ms-3"
+                onClick={handleShow}
+              >
+                ☰
+              </Button>
+              <Offcanvas
+                show={show}
+                onHide={handleClose}
+                // responsive="md"
+                placement="start"
+              >
+                <Offcanvas.Header closeButton>
+                  <Offcanvas.Title className="mt-2">Dashboard</Offcanvas.Title>
+                </Offcanvas.Header>
+                <Offcanvas.Body className="mt-2 ps-0 pe-0">
+                  <ListGroup>
+                    <ListGroup.Item
+                      action
+                      onClick={() =>
+                        clickedMenuItem(
+                          setProductMenuSelected,
+                          productMenuSelected
+                        )
+                      }
+                    >
+                      Products / Inventory
+                    </ListGroup.Item>
+                    {productMenuSelected && productMenuItems}
+                    <ListGroup.Item
+                      action
+                      onClick={() =>
+                        clickedMenuItem(
+                          setCustomerMenuSelected,
+                          customerMenuSelected
+                        )
+                      }
+                    >
+                      Customers
+                    </ListGroup.Item>
+                    {customerMenuSelected && customerMenuItems}
+                    <ListGroup.Item
+                      action
+                      onClick={() =>
+                        clickedMenuItem(
+                          setTransactionMenuSelected,
+                          transactionsMenuSelected
+                        )
+                      }
+                    >
+                      Transactions
+                    </ListGroup.Item>
+                    {transactionsMenuSelected && transactionMenuItems}
+                  </ListGroup>
+                </Offcanvas.Body>
+              </Offcanvas>
+            </div>
           </Col>
-          <Col lg={10}>{selectedComponent}</Col>
-          <Col></Col>
+          <Col lg={9} md={10}>
+            <div className="mt-3">
+              <Container className="mt-3">
+                <Row>
+                  <Col></Col>
+                  <Col md={10}>{selectedComponent}</Col>
+                  <Col></Col>
+                </Row>
+              </Container>
+            </div>
+          </Col>
+          <Col lg={0} md={1}></Col>
         </Row>
       </Container>
     </>

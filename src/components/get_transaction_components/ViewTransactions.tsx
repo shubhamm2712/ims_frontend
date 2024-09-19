@@ -5,7 +5,6 @@ import {
   Row,
   Col,
   Dropdown,
-  Container,
   ListGroup,
   Alert,
 } from "react-bootstrap";
@@ -208,216 +207,196 @@ function ViewTransactions() {
   };
 
   const form = (
-    <Container className="mt-4">
-      <Row>
-        <Col></Col>
-        <Col md={10}>
-          <div>
-            <h2>Get Transactions</h2>
-            {alertMessage && (
-              <Alert
-                className="alert alert-danger"
-                onClose={() => {
-                  setAlertMessage("");
-                }}
-                dismissible
-              >
-                {alertMessage}
-              </Alert>
-            )}
-            <Form>
-              {/* Filter Options */}
-              <Form.Group>
-                <ListGroup>
-                  <ListGroup.Item key={"all"}>
-                    <Row onClick={() => changeFilterOptions("all")}>
-                      <Col xs={1}>
-                        <Form.Check
-                          type="radio"
-                          name="transactionFilter"
-                          value="all"
-                          checked={filterOption === "all"}
-                          onChange={() => changeFilterOptions("all")}
-                        />
-                      </Col>
-                      <Col>All Transactions</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item key={"buy"}>
-                    <Row onClick={() => changeFilterOptions("buy")}>
-                      <Col xs={1}>
-                        <Form.Check
-                          type="radio"
-                          name="transactionFilter"
-                          value="buy"
-                          checked={filterOption === "buy"}
-                          onChange={() => changeFilterOptions("buy")}
-                        />
-                      </Col>
-                      <Col>Buy Transactions</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item key={"sell"}>
-                    <Row onClick={() => changeFilterOptions("sell")}>
-                      <Col xs={1}>
-                        <Form.Check
-                          type="radio"
-                          name="transactionFilter"
-                          value="sell"
-                          checked={filterOption === "sell"}
-                          onChange={() => changeFilterOptions("sell")}
-                        />
-                      </Col>
-                      <Col>Sell Transactions</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item key={"customer"}>
-                    <Row>
-                      <Col
-                        xs={1}
-                        onClick={() => changeFilterOptions("customer")}
-                      >
-                        <Form.Check
-                          type="radio"
-                          name="transactionFilter"
-                          value="customer"
-                          checked={filterOption === "customer"}
-                          onChange={() => changeFilterOptions("customer")}
-                        />
-                      </Col>
-                      <Col
-                        md={3}
-                        onClick={() => changeFilterOptions("customer")}
-                      >
-                        Customer Specific
-                      </Col>
-                      <Col>
-                        <Dropdown onClick={() => {}}>
-                          <Dropdown.Toggle
-                            variant="secondary"
-                            style={{ width: "100%" }}
-                            disabled={filterOption !== "customer"}
-                          >
-                            {selectedCustomer
-                              ? selectedCustomer.name
-                              : "Select Customer"}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu style={{ width: "100%" }}>
-                            {customers.map((customer) => (
-                              <Dropdown.Item
-                                key={customer.id}
-                                onClick={() => {
-                                  if (customer.id) {
-                                    setSelectedCustomer(customer);
-                                  }
-                                }}
-                              >
-                                {customer.name}
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item key={"product"}>
-                    <Row>
-                      <Col
-                        xs={1}
-                        onClick={() => changeFilterOptions("product")}
-                      >
-                        <Form.Check
-                          type="radio"
-                          name="transactionFilter"
-                          value="product"
-                          checked={filterOption === "product"}
-                          onChange={() => changeFilterOptions("product")}
-                        />
-                      </Col>
-                      <Col
-                        md={3}
-                        onClick={() => changeFilterOptions("product")}
-                      >
-                        Product Specific
-                      </Col>
-                      <Col>
-                        <Dropdown>
-                          <Dropdown.Toggle
-                            variant="secondary"
-                            style={{ width: "100%" }}
-                            disabled={filterOption !== "product"}
-                          >
-                            {selectedProduct
-                              ? selectedProduct.name
-                              : "Select Product"}
-                          </Dropdown.Toggle>
-                          <Dropdown.Menu style={{ width: "100%" }}>
-                            {products.map((product) => (
-                              <Dropdown.Item
-                                key={product.id}
-                                onClick={() => {
-                                  if (product.id) {
-                                    setSelectedProduct(product);
-                                  }
-                                }}
-                              >
-                                <Row>
-                                  <Col>
-                                    <strong>Name:</strong> {product.name}
-                                  </Col>
-                                  <Col>
-                                    <strong>Type:</strong> {product.type}
-                                  </Col>
-                                </Row>
-                              </Dropdown.Item>
-                            ))}
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                </ListGroup>
-              </Form.Group>
+    <div className="mt-2">
+      <h2>Get Transactions</h2>
+      {alertMessage && (
+        <Alert
+          className="alert alert-danger"
+          onClose={() => {
+            setAlertMessage("");
+          }}
+          dismissible
+        >
+          {alertMessage}
+        </Alert>
+      )}
+      <Form>
+        {/* Filter Options */}
+        <Form.Group>
+          <ListGroup>
+            <ListGroup.Item key={"all"}>
+              <Row onClick={() => changeFilterOptions("all")}>
+                <Col xs={1}>
+                  <Form.Check
+                    type="radio"
+                    name="transactionFilter"
+                    value="all"
+                    checked={filterOption === "all"}
+                    onChange={() => changeFilterOptions("all")}
+                  />
+                </Col>
+                <Col>All Transactions</Col>
+              </Row>
+            </ListGroup.Item>
+            <ListGroup.Item key={"buy"}>
+              <Row onClick={() => changeFilterOptions("buy")}>
+                <Col xs={1}>
+                  <Form.Check
+                    type="radio"
+                    name="transactionFilter"
+                    value="buy"
+                    checked={filterOption === "buy"}
+                    onChange={() => changeFilterOptions("buy")}
+                  />
+                </Col>
+                <Col>Buy Transactions</Col>
+              </Row>
+            </ListGroup.Item>
+            <ListGroup.Item key={"sell"}>
+              <Row onClick={() => changeFilterOptions("sell")}>
+                <Col xs={1}>
+                  <Form.Check
+                    type="radio"
+                    name="transactionFilter"
+                    value="sell"
+                    checked={filterOption === "sell"}
+                    onChange={() => changeFilterOptions("sell")}
+                  />
+                </Col>
+                <Col>Sell Transactions</Col>
+              </Row>
+            </ListGroup.Item>
+            <ListGroup.Item key={"customer"}>
+              <Row>
+                <Col xs={1} onClick={() => changeFilterOptions("customer")}>
+                  <Form.Check
+                    type="radio"
+                    name="transactionFilter"
+                    value="customer"
+                    checked={filterOption === "customer"}
+                    onChange={() => changeFilterOptions("customer")}
+                  />
+                </Col>
+                <Col md={3} onClick={() => changeFilterOptions("customer")}>
+                  Customer Specific
+                </Col>
+                <Col>
+                  <Dropdown onClick={() => {}}>
+                    <Dropdown.Toggle
+                      variant="secondary"
+                      style={{ width: "100%" }}
+                      disabled={filterOption !== "customer"}
+                    >
+                      {selectedCustomer
+                        ? selectedCustomer.name
+                        : "Select Customer"}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu style={{ width: "100%" }}>
+                      {customers.map((customer) => (
+                        <Dropdown.Item
+                          key={customer.id}
+                          onClick={() => {
+                            if (customer.id) {
+                              setSelectedCustomer(customer);
+                            }
+                          }}
+                        >
+                          {customer.name}
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+            <ListGroup.Item key={"product"}>
+              <Row>
+                <Col xs={1} onClick={() => changeFilterOptions("product")}>
+                  <Form.Check
+                    type="radio"
+                    name="transactionFilter"
+                    value="product"
+                    checked={filterOption === "product"}
+                    onChange={() => changeFilterOptions("product")}
+                  />
+                </Col>
+                <Col md={3} onClick={() => changeFilterOptions("product")}>
+                  Product Specific
+                </Col>
+                <Col>
+                  <Dropdown>
+                    <Dropdown.Toggle
+                      variant="secondary"
+                      style={{ width: "100%" }}
+                      disabled={filterOption !== "product"}
+                    >
+                      {selectedProduct
+                        ? selectedProduct.name
+                        : "Select Product"}
+                    </Dropdown.Toggle>
+                    <Dropdown.Menu style={{ width: "100%" }}>
+                      {products.map((product) => (
+                        <Dropdown.Item
+                          key={product.id}
+                          onClick={() => {
+                            if (product.id) {
+                              setSelectedProduct(product);
+                            }
+                          }}
+                        >
+                          <Row>
+                            <Col>
+                              <strong>Name:</strong> {product.name}
+                            </Col>
+                            <Col>
+                              <strong>Type:</strong> {product.type}
+                            </Col>
+                          </Row>
+                        </Dropdown.Item>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Col>
+              </Row>
+            </ListGroup.Item>
+          </ListGroup>
+        </Form.Group>
 
-              {/* Date Range */}
-              <Form.Group className="mt-3">
-                <Row>
-                  <Col>
-                    <Form.Label>Start Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={startDate}
-                      onChange={(e) => setStartDate(e.target.value)}
-                    />
-                  </Col>
-                  <Col>
-                    <Form.Label>End Date</Form.Label>
-                    <Form.Control
-                      type="date"
-                      value={endDate}
-                      onChange={(e) => setEndDate(e.target.value)}
-                    />
-                  </Col>
-                </Row>
-                <Form.Text className="text-muted">
-                  * By default, the date range covers the last one month.
-                </Form.Text>
-              </Form.Group>
+        {/* Date Range */}
+        <Form.Group className="mt-3">
+          <Row>
+            <Col>
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
+            </Col>
+            <Col>
+              <Form.Label>End Date</Form.Label>
+              <Form.Control
+                type="date"
+                value={endDate}
+                onChange={(e) => setEndDate(e.target.value)}
+              />
+            </Col>
+          </Row>
+          <Form.Text className="text-muted">
+            * By default, the date range covers the last one month.
+          </Form.Text>
+        </Form.Group>
 
-              {/* Submit Button */}
-              <Button
-                variant="primary"
-                onClick={handleGetTransactions}
-                className="mt-3"
-              >
-                Get Transactions
-              </Button>
-            </Form>
-          </div>
-        </Col>
-        <Col></Col>
-      </Row>
-    </Container>
+        {/* Submit Button */}
+        <Button
+          variant="primary"
+          onClick={handleGetTransactions}
+          className="mt-3"
+        >
+          Get Transactions
+        </Button>
+      </Form>
+    </div>
   );
 
   const transactionList = (

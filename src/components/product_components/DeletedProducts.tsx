@@ -175,11 +175,11 @@ function DeletedProducts() {
   );
 
   return (
-    <div className="mt-2">
+    <div>
       {!showProduct && (
         <>
+          <h2 className="mt-2">Disabled Products</h2>
           {showAlert && alertMessage !== "" && alertMessageBox}
-          <h2>Disabled Products</h2>
 
           {products.length > 0 && disabledTable}
           {products.length == 0 && <h6 className="mt-2">No products here</h6>}

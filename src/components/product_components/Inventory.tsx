@@ -166,8 +166,8 @@ function Inventory() {
     <div className="mt-2">
       {!showProduct && (
         <>
+          <h2 className="mt-2">Inventory</h2>
           {showAlert && alertMessage !== "" && alertMessageBox}
-          <h2>Inventory</h2>
 
           {products.length > 0 && inventoryTable}
           {products.length == 0 && <h6 className="mt-2">No products here</h6>}

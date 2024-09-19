@@ -160,11 +160,11 @@ function ViewCustomers() {
   );
 
   return (
-    <div className="mt-2">
+    <div>
       {!showCustomer && (
         <>
+          <h2 className="mt-2">Customers</h2>
           {showAlert && alertMessage !== "" && alertMessageBox}
-          <h2>Customers</h2>
 
           {customers.length > 0 && inventoryTable}
           {customers.length == 0 && <h6 className="mt-2">No customers here</h6>}
