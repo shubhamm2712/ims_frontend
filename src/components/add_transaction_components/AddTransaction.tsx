@@ -58,6 +58,7 @@ function AddTransaction() {
   };
 
   const onNext = async (index: number) => {
+    console.log("Clicked onNext", index);
     if (index < 3) {
       setCurrentStep(index + 1);
     } else {

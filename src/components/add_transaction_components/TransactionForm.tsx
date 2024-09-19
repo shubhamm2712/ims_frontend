@@ -49,6 +49,7 @@ function TransactionForm({
   };
 
   const handleNext = () => {
+    console.log("HandleNext from TransactionForm");
     if (validate_transaction()) {
       onNext();
     }
