@@ -57,23 +57,49 @@ function AddTransaction() {
     }
   };
 
-  const onNext = async (index: number) => {
-    console.log("Clicked onNext", index);
-    if (index < 3) {
-      setCurrentStep(index + 1);
-    } else {
-      try {
-        var flag = false;
-        if (transaction.customerId === -1) {
-          const response = await apiCall<Customer>(
+  const clickedSubmit = async () => {
+    try {
+      var flag = false;
+      if (transaction.customerId === -1) {
+        const response = await apiCall<Customer>(
+          "POST",
+          "/customers/add_customer",
+          {
+            name: transaction.name,
+            address: transaction.customerAddress,
+            phone: transaction.customerPhone,
+            taxNumber: transaction.customerTaxNumber,
+            metaData: transaction.customerMetaData,
+          }
+        );
+        if (
+          response.success &&
+          typeof response.data === "object" &&
+          "id" in response.data
+        ) {
+          transaction.customerId = response.data.id;
+        } else if (
+          typeof response.data === "object" &&
+          "detail" in response.data
+        ) {
+          setAlertMessage(response.data["detail"]);
+          setTransaction(emptyTransaction);
+          setTransactionItems([]);
+          setCurrentStep(0);
+          flag = true;
+        }
+      }
+      for (var index = 0; index < transactionItems.length; index += 1) {
+        if (transactionItems[index].productId === -1 && !flag) {
+          const response = await apiCall<Product>(
             "POST",
-            "/customers/add_customer",
+            "/products/add_product",
             {
-              name: transaction.name,
-              address: transaction.customerAddress,
-              phone: transaction.customerPhone,
-              taxNumber: transaction.customerTaxNumber,
-              metaData: transaction.customerMetaData,
+              name: transactionItems[index].name,
+              type: transactionItems[index].productType,
+              subtype: transactionItems[index].productSubtype,
+              description: transactionItems[index].productDescription,
+              metaData: transactionItems[index].productMetaData,
             }
           );
           if (
@@ -81,7 +107,7 @@ function AddTransaction() {
             typeof response.data === "object" &&
             "id" in response.data
           ) {
-            transaction.customerId = response.data.id;
+            transactionItems[index].productId = response.data.id;
           } else if (
             typeof response.data === "object" &&
             "detail" in response.data
@@ -93,70 +119,39 @@ function AddTransaction() {
             flag = true;
           }
         }
-        for (var index = 0; index < transactionItems.length; index += 1) {
-          if (transactionItems[index].productId === -1 && !flag) {
-            const response = await apiCall<Product>(
-              "POST",
-              "/products/add_product",
-              {
-                name: transactionItems[index].name,
-                type: transactionItems[index].productType,
-                subtype: transactionItems[index].productSubtype,
-                description: transactionItems[index].productDescription,
-                metaData: transactionItems[index].productMetaData,
-              }
-            );
-            if (
-              response.success &&
-              typeof response.data === "object" &&
-              "id" in response.data
-            ) {
-              transactionItems[index].productId = response.data.id;
-            } else if (
-              typeof response.data === "object" &&
-              "detail" in response.data
-            ) {
-              setAlertMessage(response.data["detail"]);
-              setTransaction(emptyTransaction);
-              setTransactionItems([]);
-              setCurrentStep(0);
-              flag = true;
-            }
-          }
-        }
-        if (!flag) {
-          const response = await apiCall<Transaction>(
-            "POST",
-            "/transactions/add_transaction",
-            {
-              ...transaction,
-              items: transactionItems,
-            }
-          );
-          if (
-            response.success &&
-            typeof response.data === "object" &&
-            "date" in response.data
-          ) {
-            setTransaction(response.data);
-            setViewTransactionPage(true);
-          } else if (
-            typeof response.data === "object" &&
-            "detail" in response.data
-          ) {
-            setAlertMessage(response.data["detail"]);
-            setTransaction(emptyTransaction);
-            setTransactionItems([]);
-            setCurrentStep(0);
-          }
-        }
-      } catch (error) {
-        console.error("Error adding transaction:", error);
-        setAlertMessage("Check console for errors");
-        setTransaction(emptyTransaction);
-        setTransactionItems([]);
-        setCurrentStep(0);
       }
+      if (!flag) {
+        const response = await apiCall<Transaction>(
+          "POST",
+          "/transactions/add_transaction",
+          {
+            ...transaction,
+            items: transactionItems,
+          }
+        );
+        if (
+          response.success &&
+          typeof response.data === "object" &&
+          "date" in response.data
+        ) {
+          setTransaction(response.data);
+          setViewTransactionPage(true);
+        } else if (
+          typeof response.data === "object" &&
+          "detail" in response.data
+        ) {
+          setAlertMessage(response.data["detail"]);
+          setTransaction(emptyTransaction);
+          setTransactionItems([]);
+          setCurrentStep(0);
+        }
+      }
+    } catch (error) {
+      console.error("Error adding transaction:", error);
+      setAlertMessage("Check console for errors");
+      setTransaction(emptyTransaction);
+      setTransactionItems([]);
+      setCurrentStep(0);
     }
   };
 
@@ -164,9 +159,8 @@ function AddTransaction() {
     <>
       {currentStep == 0 && (
         <TransactionForm
-          onNext={async () => {
-            console.log("Called OnNext from TransactionForm Component");
-            await onNext(0);
+          onNext={() => {
+            setCurrentStep(1);
           }}
           onPrevious={() => {
             onPrevious(0);
@@ -182,7 +176,7 @@ function AddTransaction() {
       {currentStep == 1 && (
         <SelectCustomer
           onNext={() => {
-            onNext(1);
+            setCurrentStep(2);
           }}
           onPrevious={() => {
             onPrevious(1);
@@ -196,7 +190,7 @@ function AddTransaction() {
       {currentStep == 2 && (
         <SelectProduct
           onNext={() => {
-            onNext(2);
+            setCurrentStep(3);
           }}
           onPrevious={() => {
             onPrevious(2);
@@ -211,7 +205,7 @@ function AddTransaction() {
       {currentStep == 3 && (
         <Review
           onNext={() => {
-            onNext(3);
+            clickedSubmit();
           }}
           onPrevious={() => {
             onPrevious(3);

@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 function Callback() {
-  var message = "Authorizing...";
+  const [message, setMessage] = useState("Authorizing...");
   const navigate = useNavigate();
 
   const url = window.location.origin;
@@ -39,11 +39,22 @@ function Callback() {
         }
         navigate("/dashboard");
       } else {
-        message = "Check logs for error";
+        setMessage("Inform the developer about this error");
         console.log(response);
+        setTimeout(() => {
+          navigate("/");
+        }, 5000);
       }
     };
-    handleCallback();
+    if (
+      authorizationCode === undefined ||
+      authorizationCode == null ||
+      authorizationCode == ""
+    ) {
+      navigate("/");
+    } else {
+      handleCallback();
+    }
   }, []);
   return (
     <Container
