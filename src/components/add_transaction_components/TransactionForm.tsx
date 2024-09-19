@@ -22,6 +22,13 @@ function TransactionForm({
   const [currentAlert, setCurrentAlert] = useState("");
 
   const validate_transaction = () => {
+    if (
+      transaction.invoiceNumber === undefined ||
+      transaction.invoiceNumber.trim() === ""
+    ) {
+      setCurrentAlert("Invalid Invoice Number");
+      return false;
+    }
     if (transaction.date === undefined || transaction.date === "") {
       setCurrentAlert("Invalid Date");
       return false;
@@ -160,7 +167,7 @@ function TransactionForm({
           </Form.Control>
         </Form.Group>
 
-        <Form.Group className="mt-4">
+        <Form.Group className="mt-4 mb-4">
           <div className="d-flex">
             <div className="me-auto">
               <Button variant="secondary" type="button" onClick={onPrevious}>
