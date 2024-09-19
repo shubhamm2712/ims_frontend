@@ -164,9 +164,9 @@ function AddTransaction() {
     <>
       {currentStep == 0 && (
         <TransactionForm
-          onNext={() => {
+          onNext={async () => {
             console.log("Called OnNext from TransactionForm Component");
-            onNext(0);
+            await onNext(0);
           }}
           onPrevious={() => {
             onPrevious(0);
