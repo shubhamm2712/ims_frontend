@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import { apiCall } from "../../utils/apiCall";
 import { Customer } from "../../models/models";
 import ViewCustomer from "./ViewCustomer";
 
 function AddCustomer() {
+  const [loaderShow, setLoaderShow] = useState(false);
   const [customerData, setCustomerData] = useState<Customer>({
     name: "",
     address: "",
@@ -42,6 +43,7 @@ function AddCustomer() {
     if (!validate_form()) {
       return;
     }
+    setLoaderShow(true);
     try {
       const response = await apiCall<Customer>(
         "POST",
@@ -61,9 +63,11 @@ function AddCustomer() {
       ) {
         setAlertMessage(response.data["detail"]);
       }
+      setLoaderShow(false);
     } catch (error) {
       console.error("Error adding customer:", error);
       setAlertMessage("Check console for errors");
+      setLoaderShow(false);
     }
   };
 
@@ -190,8 +194,13 @@ function AddCustomer() {
 
   return (
     <>
-      {showCustomer && addedCustomerView}
-      {!showCustomer && form}
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!loaderShow && showCustomer && addedCustomerView}
+      {!loaderShow && !showCustomer && form}
     </>
   );
 }

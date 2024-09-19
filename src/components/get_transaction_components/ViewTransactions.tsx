@@ -7,6 +7,7 @@ import {
   Dropdown,
   ListGroup,
   Alert,
+  Spinner,
 } from "react-bootstrap";
 import {
   Customer,
@@ -19,6 +20,7 @@ import { apiCall } from "../../utils/apiCall";
 import ViewTransactionList from "./ViewTransactionList";
 
 function ViewTransactions() {
+  const [loaderShow, setLoaderShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [filterOption, setFilterOption] = useState<string>("all");
   const [products, setProducts] = useState<Product[]>([]);
@@ -114,7 +116,7 @@ function ViewTransactions() {
   };
 
   const handleGetTransactions = async () => {
-    // Prepare filters based on selected options
+    setAlertMessage("");
     var url = "/transactions";
     if (filterOption == "all") {
       url += "/get_all_transactions";
@@ -134,7 +136,11 @@ function ViewTransactions() {
       selectedProduct.id > 0
     ) {
       url += "/get_transaction_product/" + selectedProduct.id.toString();
+    } else {
+      setAlertMessage("Invalid Request");
+      return;
     }
+    setLoaderShow(true);
     url += "?start_date=" + startDate + "&end_date=" + endDate;
     try {
       const response = await apiCall<Portfolio>("GET", url);
@@ -200,9 +206,11 @@ function ViewTransactions() {
       ) {
         setAlertMessage(response.data["detail"]);
       }
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error fetching transactions:", error);
+      setLoaderShow(false);
     }
   };
 
@@ -412,8 +420,13 @@ function ViewTransactions() {
 
   return (
     <>
-      {!showTransactionsList && form}
-      {showTransactionsList && transactionList}
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!loaderShow && !showTransactionsList && form}
+      {!loaderShow && showTransactionsList && transactionList}
     </>
   );
 }

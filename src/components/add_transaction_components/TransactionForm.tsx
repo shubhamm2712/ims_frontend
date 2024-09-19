@@ -48,7 +48,7 @@ function TransactionForm({
     return true;
   };
 
-  const handleNext = async () => {
+  const handleNext = () => {
     if (validate_transaction()) {
       onNext();
     }

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Alert, Stack } from "react-bootstrap";
+import { Table, Button, Alert, Stack, Spinner } from "react-bootstrap";
 import { apiCall } from "../../utils/apiCall";
 import { Product } from "../../models/models";
 import ViewProduct from "./ViewProduct";
 
 function DeletedProducts() {
+  const [loaderShow, setLoaderShow] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [recoverSelectedProducts, setRecoverSelectedProducts] = useState<
@@ -22,15 +23,18 @@ function DeletedProducts() {
         );
         if (response.success && Array.isArray(response.data)) {
           setProducts(response.data);
+          setLoaderShow(false);
         } else if (
           typeof response.data === "object" &&
           "detail" in response.data
         ) {
           setAlertMessage(response.data["detail"]);
+          setLoaderShow(false);
         }
       } catch (error) {
         setAlertMessage("Check console for errors");
         console.error("Error fetching products:", error);
+        setLoaderShow(false);
       }
     };
 
@@ -61,6 +65,7 @@ function DeletedProducts() {
 
   // Handle deletion of selected products
   const handleDelete = async () => {
+    setLoaderShow(true);
     try {
       const deleteProducts: Product[] = [];
       selectedProducts.map((index: number) => {
@@ -81,14 +86,17 @@ function DeletedProducts() {
       }
       setSelectedProducts([]); // Reset selection
       setRecoverSelectedProducts([]);
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error deleting products:", error);
+      setLoaderShow(false);
     }
   };
 
   // Handle recover of selected products
   const handleRecover = async () => {
+    setLoaderShow(true);
     try {
       const enableProducts: Product[] = [];
       recoverSelectedProducts.map((index: number) => {
@@ -109,9 +117,11 @@ function DeletedProducts() {
       }
       setSelectedProducts([]); // Reset selection
       setRecoverSelectedProducts([]);
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error deleting products:", error);
+      setLoaderShow(false);
     }
   };
 
@@ -179,27 +189,37 @@ function DeletedProducts() {
       {!showProduct && (
         <>
           <h2 className="mt-2">Disabled Products</h2>
-          {showAlert && alertMessage !== "" && alertMessageBox}
-
-          {products.length > 0 && disabledTable}
-          {products.length == 0 && <h6 className="mt-2">No products here</h6>}
-
-          <Stack direction="horizontal" gap={2}>
-            {recoverSelectedProducts.length > 0 && (
-              <div>
-                <Button variant="primary" onClick={handleRecover}>
-                  Enable Selected Products
-                </Button>
-              </div>
-            )}
-            {selectedProducts.length > 0 && (
-              <div className="ms-auto">
-                <Button variant="danger" onClick={handleDelete}>
-                  Permanently Delete Selected Products
-                </Button>
-              </div>
-            )}
-          </Stack>
+          {loaderShow && (
+            <Spinner animation="border" className="mt-2">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
+          {!loaderShow && (
+            <>
+              {" "}
+              {showAlert && alertMessage !== "" && alertMessageBox}
+              {products.length > 0 && disabledTable}
+              {products.length == 0 && (
+                <h6 className="mt-2">No products here</h6>
+              )}
+              <Stack direction="horizontal" gap={2}>
+                {recoverSelectedProducts.length > 0 && (
+                  <div>
+                    <Button variant="primary" onClick={handleRecover}>
+                      Enable Selected Products
+                    </Button>
+                  </div>
+                )}
+                {selectedProducts.length > 0 && (
+                  <div className="ms-auto">
+                    <Button variant="danger" onClick={handleDelete}>
+                      Permanently Delete Selected Products
+                    </Button>
+                  </div>
+                )}
+              </Stack>
+            </>
+          )}
         </>
       )}
       {showProduct && productToShow}

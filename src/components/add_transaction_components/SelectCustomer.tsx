@@ -1,4 +1,12 @@
-import { Alert, Button, Col, Form, ListGroup, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Col,
+  Form,
+  ListGroup,
+  Row,
+  Spinner,
+} from "react-bootstrap";
 import { Customer, Transaction } from "../../models/models";
 import { useEffect, useState } from "react";
 import { apiCall } from "../../utils/apiCall";
@@ -16,6 +24,7 @@ function SelectCustomer({
   transaction,
   changeTransaction,
 }: Props) {
+  const [loaderShow, setLoaderShow] = useState(true);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomer, setSelectedCustomer] = useState(transaction);
   const [currentAlert, setCurrentAlert] = useState("");
@@ -77,9 +86,11 @@ function SelectCustomer({
         ) {
           setCurrentAlert(response.data["detail"]);
         }
+        setLoaderShow(false);
       } catch (error) {
         setCurrentAlert("Check console for errors");
         console.error("Error fetching customers:", error);
+        setLoaderShow(false);
       }
     };
 
@@ -88,170 +99,178 @@ function SelectCustomer({
 
   return (
     <>
-      {currentAlert && (
-        <Alert
-          className="alert alert-danger"
-          onClose={() => {
-            setCurrentAlert("");
-          }}
-          dismissible
-        >
-          {currentAlert}
-        </Alert>
-      )}
       <h2 className="mt-2 mb-2">Select Customer</h2>
-
-      <Form.Group>
-        <ListGroup>
-          {customers.map((customer) => (
-            <ListGroup.Item
-              key={customer.id}
-              onClick={() => {
-                setSelectedCustomer({
-                  ...selectedCustomer,
-                  customerId: customer.id,
-                  name: customer.name,
-                  customerAddress: customer.address,
-                  customerPhone: customer.phone,
-                  customerTaxNumber: customer.taxNumber,
-                  customerMetaData: customer.metaData,
-                });
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!loaderShow && (
+        <>
+          {currentAlert && (
+            <Alert
+              className="alert alert-danger"
+              onClose={() => {
+                setCurrentAlert("");
               }}
+              dismissible
             >
-              <Row>
-                <Col xs={1} className="d-flex align-items-center">
-                  <Form.Check
-                    type="radio"
-                    checked={selectedCustomer.customerId === customer.id}
-                    onChange={() => {}}
-                  ></Form.Check>
-                </Col>
-                <Col>
+              {currentAlert}
+            </Alert>
+          )}
+          <Form.Group>
+            <ListGroup>
+              {customers.map((customer) => (
+                <ListGroup.Item
+                  key={customer.id}
+                  onClick={() => {
+                    setSelectedCustomer({
+                      ...selectedCustomer,
+                      customerId: customer.id,
+                      name: customer.name,
+                      customerAddress: customer.address,
+                      customerPhone: customer.phone,
+                      customerTaxNumber: customer.taxNumber,
+                      customerMetaData: customer.metaData,
+                    });
+                  }}
+                >
                   <Row>
-                    <Col sm={6}>
-                      <strong>Name:</strong>
-                      {" " + customer.name}
+                    <Col xs={1} className="d-flex align-items-center">
+                      <Form.Check
+                        type="radio"
+                        checked={selectedCustomer.customerId === customer.id}
+                        onChange={() => {}}
+                      ></Form.Check>
                     </Col>
-                    <Col sm={6}>
-                      <strong>Address: </strong>
-                      {customer.address}
+                    <Col>
+                      <Row>
+                        <Col sm={6}>
+                          <strong>Name:</strong>
+                          {" " + customer.name}
+                        </Col>
+                        <Col sm={6}>
+                          <strong>Address: </strong>
+                          {customer.address}
+                        </Col>
+                      </Row>
                     </Col>
                   </Row>
-                </Col>
-              </Row>
-            </ListGroup.Item>
-          ))}
-          <ListGroup.Item
-            key={-1}
-            onClick={() => {
-              setSelectedCustomer({
-                ...selectedCustomer,
-                customerId: -1,
-                name: "",
-                customerAddress: "",
-                customerMetaData: "",
-                customerPhone: "",
-                customerTaxNumber: "",
-              });
-            }}
-          >
-            <Row>
-              <Col xs={1} className="d-flex align-items-center">
-                <Form.Check
-                  type="radio"
-                  checked={selectedCustomer.customerId === -1}
-                  onChange={() => {}}
-                ></Form.Check>
-              </Col>
-              <Col>
+                </ListGroup.Item>
+              ))}
+              <ListGroup.Item
+                key={-1}
+                onClick={() => {
+                  setSelectedCustomer({
+                    ...selectedCustomer,
+                    customerId: -1,
+                    name: "",
+                    customerAddress: "",
+                    customerMetaData: "",
+                    customerPhone: "",
+                    customerTaxNumber: "",
+                  });
+                }}
+              >
                 <Row>
-                  <strong>Add new customer</strong>
+                  <Col xs={1} className="d-flex align-items-center">
+                    <Form.Check
+                      type="radio"
+                      checked={selectedCustomer.customerId === -1}
+                      onChange={() => {}}
+                    ></Form.Check>
+                  </Col>
+                  <Col>
+                    <Row>
+                      <strong>Add new customer</strong>
+                    </Row>
+                  </Col>
                 </Row>
-              </Col>
-            </Row>
-          </ListGroup.Item>
-        </ListGroup>
-      </Form.Group>
+              </ListGroup.Item>
+            </ListGroup>
+          </Form.Group>
 
-      {selectedCustomer.customerId === -1 && (
-        <Form.Group>
-          <Form.Control
-            type="text"
-            placeholder="New Customer Name"
-            value={selectedCustomer.name}
-            onChange={(e) =>
-              setSelectedCustomer({
-                ...selectedCustomer,
-                name: e.target.value,
-              })
-            }
-            className="mt-3 mb-2"
-          />
-          <Form.Control
-            as="textarea"
-            placeholder="New Customer Address"
-            value={selectedCustomer.customerAddress}
-            onChange={(e) =>
-              setSelectedCustomer({
-                ...selectedCustomer,
-                customerAddress: e.target.value,
-              })
-            }
-            className="mt-2 mb-2"
-          />
-          <Form.Control
-            type="text"
-            placeholder="New Customer Phone"
-            value={selectedCustomer.customerPhone}
-            onChange={(e) =>
-              setSelectedCustomer({
-                ...selectedCustomer,
-                customerPhone: e.target.value,
-              })
-            }
-            className="mt-2 mb-2"
-          />
-          <Form.Control
-            type="text"
-            placeholder="New Customer Tax Number"
-            value={selectedCustomer.customerTaxNumber}
-            onChange={(e) =>
-              setSelectedCustomer({
-                ...selectedCustomer,
-                customerTaxNumber: e.target.value,
-              })
-            }
-            className="mt-2 mb-2"
-          />
-          <Form.Control
-            type="text"
-            placeholder="New Customer MetaData"
-            value={selectedCustomer.customerMetaData}
-            onChange={(e) =>
-              setSelectedCustomer({
-                ...selectedCustomer,
-                customerMetaData: e.target.value,
-              })
-            }
-            className="mt-2 mb-2"
-          />
-        </Form.Group>
+          {selectedCustomer.customerId === -1 && (
+            <Form.Group>
+              <Form.Control
+                type="text"
+                placeholder="New Customer Name"
+                value={selectedCustomer.name}
+                onChange={(e) =>
+                  setSelectedCustomer({
+                    ...selectedCustomer,
+                    name: e.target.value,
+                  })
+                }
+                className="mt-3 mb-2"
+              />
+              <Form.Control
+                as="textarea"
+                placeholder="New Customer Address"
+                value={selectedCustomer.customerAddress}
+                onChange={(e) =>
+                  setSelectedCustomer({
+                    ...selectedCustomer,
+                    customerAddress: e.target.value,
+                  })
+                }
+                className="mt-2 mb-2"
+              />
+              <Form.Control
+                type="text"
+                placeholder="New Customer Phone"
+                value={selectedCustomer.customerPhone}
+                onChange={(e) =>
+                  setSelectedCustomer({
+                    ...selectedCustomer,
+                    customerPhone: e.target.value,
+                  })
+                }
+                className="mt-2 mb-2"
+              />
+              <Form.Control
+                type="text"
+                placeholder="New Customer Tax Number"
+                value={selectedCustomer.customerTaxNumber}
+                onChange={(e) =>
+                  setSelectedCustomer({
+                    ...selectedCustomer,
+                    customerTaxNumber: e.target.value,
+                  })
+                }
+                className="mt-2 mb-2"
+              />
+              <Form.Control
+                type="text"
+                placeholder="New Customer MetaData"
+                value={selectedCustomer.customerMetaData}
+                onChange={(e) =>
+                  setSelectedCustomer({
+                    ...selectedCustomer,
+                    customerMetaData: e.target.value,
+                  })
+                }
+                className="mt-2 mb-2"
+              />
+            </Form.Group>
+          )}
+
+          <Form.Group className="mt-4">
+            <div className="d-flex">
+              <div className="me-auto">
+                <Button variant="secondary" type="button" onClick={onPrevious}>
+                  Back
+                </Button>
+              </div>
+              <div className="ms-auto">
+                <Button variant="primary" type="button" onClick={handleNext}>
+                  Next
+                </Button>
+              </div>
+            </div>
+          </Form.Group>
+        </>
       )}
-
-      <Form.Group className="mt-4">
-        <div className="d-flex">
-          <div className="me-auto">
-            <Button variant="secondary" type="button" onClick={onPrevious}>
-              Back
-            </Button>
-          </div>
-          <div className="ms-auto">
-            <Button variant="primary" type="button" onClick={handleNext}>
-              Next
-            </Button>
-          </div>
-        </div>
-      </Form.Group>
     </>
   );
 }

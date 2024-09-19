@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Spinner } from "react-bootstrap";
 import { apiCall } from "../../utils/apiCall";
 import { Product } from "../../models/models";
 import ViewProduct from "./ViewProduct";
 
 function AddProduct() {
+  const [loaderShow, setLoaderShow] = useState(false);
   const [productData, setProductData] = useState<Product>({
     name: "",
     type: "",
@@ -42,6 +43,7 @@ function AddProduct() {
     if (!validate_form()) {
       return;
     }
+    setLoaderShow(true);
     try {
       const response = await apiCall<Product>(
         "POST",
@@ -61,9 +63,11 @@ function AddProduct() {
       ) {
         setAlertMessage(response.data["detail"]);
       }
+      setLoaderShow(false);
     } catch (error) {
       console.error("Error adding product:", error);
       setAlertMessage("Check console for errors");
+      setLoaderShow(false);
     }
   };
 
@@ -190,8 +194,13 @@ function AddProduct() {
 
   return (
     <>
-      {showProduct && addedProductView}
-      {!showProduct && form}
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!loaderShow && showProduct && addedProductView}
+      {!loaderShow && !showProduct && form}
     </>
   );
 }

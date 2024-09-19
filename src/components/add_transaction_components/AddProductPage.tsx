@@ -85,7 +85,7 @@ function AddProductPage({
 
   return (
     <>
-      <Container className="mt-2">
+      <Container className="mt-2 mb-4">
         {currentAlert && (
           <Alert
             className="alert alert-danger"
@@ -152,67 +152,100 @@ function AddProductPage({
                   </Row>
                 </ListGroup.Item>
                 {selectProduct.productId === product.id && (
-                  <ListGroup.Item key={product.id + "q"}>
-                    <Row>
-                      <Col xs={1}></Col>
-                      <Col>
+                  <div key={product.id + "div"}>
+                    <ListGroup.Item key={product.id + "q"}>
+                      <Row>
+                        <Col xs={1}></Col>
+                        <Col>
+                          <Row>
+                            <Col sm={6}>
+                              <Form.Group>
+                                <Stack direction="horizontal" gap={2}>
+                                  <Form.Label className="me-0" column>
+                                    <strong>Quantity: </strong>
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="number"
+                                    value={
+                                      selectProduct.quantity === 0
+                                        ? ""
+                                        : selectProduct.quantity
+                                    }
+                                    placeholder="0"
+                                    onChange={(event) => {
+                                      setSelectProduct({
+                                        ...selectProduct,
+                                        quantity: Number(
+                                          Number(event.target.value).toFixed(4)
+                                        ),
+                                      });
+                                    }}
+                                  ></Form.Control>
+                                </Stack>
+                              </Form.Group>
+                            </Col>
+                            <Col sm={6}>
+                              <Form.Group>
+                                <Stack direction="horizontal" gap={2}>
+                                  <Form.Label>
+                                    <strong>Rate:</strong>$
+                                  </Form.Label>
+                                  <Form.Control
+                                    type="number"
+                                    value={
+                                      selectProduct.rate === 0
+                                        ? ""
+                                        : selectProduct.rate
+                                    }
+                                    placeholder="0"
+                                    onChange={(event) => {
+                                      setSelectProduct({
+                                        ...selectProduct,
+                                        rate: Number(
+                                          Number(event.target.value).toFixed(2)
+                                        ),
+                                      });
+                                    }}
+                                  ></Form.Control>
+                                </Stack>
+                              </Form.Group>
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
+                    </ListGroup.Item>
+                    <ListGroup.Item key={product.id + "s"}>
+                      <Form.Group className="">
                         <Row>
-                          <Col sm={6}>
-                            <Form.Group>
-                              <Stack direction="horizontal" gap={2}>
-                                <Form.Label className="me-0" column>
-                                  <strong>Quantity: </strong>
-                                </Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  value={
-                                    selectProduct.quantity === 0
-                                      ? ""
-                                      : selectProduct.quantity
-                                  }
-                                  placeholder="0"
-                                  onChange={(event) => {
-                                    setSelectProduct({
-                                      ...selectProduct,
-                                      quantity: Number(
-                                        Number(event.target.value).toFixed(4)
-                                      ),
-                                    });
-                                  }}
-                                ></Form.Control>
-                              </Stack>
-                            </Form.Group>
-                          </Col>
-                          <Col sm={6}>
-                            <Form.Group>
-                              <Stack direction="horizontal" gap={2}>
-                                <Form.Label>
-                                  <strong>Rate:</strong>$
-                                </Form.Label>
-                                <Form.Control
-                                  type="number"
-                                  value={
-                                    selectProduct.rate === 0
-                                      ? ""
-                                      : selectProduct.rate
-                                  }
-                                  placeholder="0"
-                                  onChange={(event) => {
-                                    setSelectProduct({
-                                      ...selectProduct,
-                                      rate: Number(
-                                        Number(event.target.value).toFixed(2)
-                                      ),
-                                    });
-                                  }}
-                                ></Form.Control>
-                              </Stack>
-                            </Form.Group>
+                          <Col xs={1}></Col>
+                          <Col>
+                            <Row>
+                              <Col sm={6} className="mt-2">
+                                <Button
+                                  variant="secondary"
+                                  type="button"
+                                  onClick={onCancel}
+                                  style={{ width: "100%" }}
+                                >
+                                  Cancel
+                                </Button>
+                              </Col>
+                              <Col sm={6} className="mt-2">
+                                <Button
+                                  variant="primary"
+                                  type="button"
+                                  onClick={handleAdd}
+                                  style={{ width: "100%" }}
+                                >
+                                  Add
+                                </Button>
+                              </Col>
+                            </Row>
                           </Col>
                         </Row>
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
+                      </Form.Group>
+                    </ListGroup.Item>
+                  </div>
                 )}
               </div>
             );
@@ -446,24 +479,40 @@ function AddProductPage({
                   </Col>
                 </Row>
               </ListGroup.Item>
+              <ListGroup.Item key={"-1s"}>
+                <Form.Group className="">
+                  <Row>
+                    <Col xs={1}></Col>
+                    <Col>
+                      <Row>
+                        <Col sm={6} className="mt-2">
+                          <Button
+                            variant="secondary"
+                            type="button"
+                            onClick={onCancel}
+                            style={{ width: "100%" }}
+                          >
+                            Cancel
+                          </Button>
+                        </Col>
+                        <Col sm={6} className="mt-2">
+                          <Button
+                            variant="primary"
+                            type="button"
+                            onClick={handleAdd}
+                            style={{ width: "100%" }}
+                          >
+                            Add
+                          </Button>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </ListGroup.Item>
             </div>
           )}
         </ListGroup>
-
-        <Form.Group className="mt-4">
-          <div className="d-flex">
-            <div className="me-auto">
-              <Button variant="secondary" type="button" onClick={onCancel}>
-                Cancel
-              </Button>
-            </div>
-            <div className="ms-auto">
-              <Button variant="primary" type="button" onClick={handleAdd}>
-                Add
-              </Button>
-            </div>
-          </div>
-        </Form.Group>
       </Container>
     </>
   );

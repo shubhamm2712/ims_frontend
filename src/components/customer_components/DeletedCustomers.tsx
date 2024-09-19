@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Alert, Stack } from "react-bootstrap";
+import { Table, Button, Alert, Stack, Spinner } from "react-bootstrap";
 import { apiCall } from "../../utils/apiCall";
 import { Customer } from "../../models/models";
 import ViewCustomer from "./ViewCustomer";
 
 function DeletedCustomers() {
+  const [loaderShow, setLoaderShow] = useState(true);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomers, setSelectedCustomers] = useState<number[]>([]);
   const [recoverSelectedCustomers, setRecoverSelectedCustomers] = useState<
@@ -28,9 +29,11 @@ function DeletedCustomers() {
         ) {
           setAlertMessage(response.data["detail"]);
         }
+        setLoaderShow(false);
       } catch (error) {
         setAlertMessage("Check console for errors");
         console.error("Error fetching customers:", error);
+        setLoaderShow(false);
       }
     };
 
@@ -61,6 +64,7 @@ function DeletedCustomers() {
 
   // Handle deletion of selected customers
   const handleDelete = async () => {
+    setLoaderShow(true);
     try {
       const deleteCustomers: Customer[] = [];
       selectedCustomers.map((index: number) => {
@@ -81,14 +85,17 @@ function DeletedCustomers() {
       }
       setSelectedCustomers([]); // Reset selection
       setRecoverSelectedCustomers([]);
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error deleting customers:", error);
+      setLoaderShow(false);
     }
   };
 
   // Handle recover of selected customers
   const handleRecover = async () => {
+    setLoaderShow(true);
     try {
       const enableCustomers: Customer[] = [];
       recoverSelectedCustomers.map((index: number) => {
@@ -109,9 +116,11 @@ function DeletedCustomers() {
       }
       setSelectedCustomers([]); // Reset selection
       setRecoverSelectedCustomers([]);
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error deleting customers:", error);
+      setLoaderShow(false);
     }
   };
 
@@ -183,27 +192,38 @@ function DeletedCustomers() {
       {!showCustomer && (
         <>
           <h2 className="mt-2">Disabled Customers</h2>
-          {showAlert && alertMessage !== "" && alertMessageBox}
+          {loaderShow && (
+            <Spinner animation="border" className="mt-2">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
+          {!loaderShow && (
+            <>
+              {showAlert && alertMessage !== "" && alertMessageBox}
 
-          {customers.length > 0 && disabledTable}
-          {customers.length == 0 && <h6 className="mt-2">No customers here</h6>}
+              {customers.length > 0 && disabledTable}
+              {customers.length == 0 && (
+                <h6 className="mt-2">No customers here</h6>
+              )}
 
-          <Stack direction="horizontal" gap={2}>
-            {recoverSelectedCustomers.length > 0 && (
-              <div>
-                <Button variant="primary" onClick={handleRecover}>
-                  Enable Selected Customers
-                </Button>
-              </div>
-            )}
-            {selectedCustomers.length > 0 && (
-              <div className="ms-auto">
-                <Button variant="danger" onClick={handleDelete}>
-                  Permanently Delete Selected Customers
-                </Button>
-              </div>
-            )}
-          </Stack>
+              <Stack direction="horizontal" gap={2}>
+                {recoverSelectedCustomers.length > 0 && (
+                  <div>
+                    <Button variant="primary" onClick={handleRecover}>
+                      Enable Selected Customers
+                    </Button>
+                  </div>
+                )}
+                {selectedCustomers.length > 0 && (
+                  <div className="ms-auto">
+                    <Button variant="danger" onClick={handleDelete}>
+                      Permanently Delete Selected Customers
+                    </Button>
+                  </div>
+                )}
+              </Stack>
+            </>
+          )}
         </>
       )}
       {showCustomer && customerToShow}

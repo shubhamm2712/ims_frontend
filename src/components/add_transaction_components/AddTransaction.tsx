@@ -11,8 +11,10 @@ import {
 } from "../../models/models";
 import ViewTransaction from "./ViewTransaction";
 import { apiCall } from "../../utils/apiCall";
+import { Spinner } from "react-bootstrap";
 
 function AddTransaction() {
+  const [loaderShow, setLoaderShow] = useState(false);
   const emptyTransaction: Transaction = {
     invoiceNumber: "",
     date: "",
@@ -58,6 +60,7 @@ function AddTransaction() {
   };
 
   const clickedSubmit = async () => {
+    setLoaderShow(true);
     try {
       var flag = false;
       if (transaction.customerId === -1) {
@@ -146,12 +149,14 @@ function AddTransaction() {
           setCurrentStep(0);
         }
       }
+      setLoaderShow(false);
     } catch (error) {
       console.error("Error adding transaction:", error);
       setAlertMessage("Check console for errors");
       setTransaction(emptyTransaction);
       setTransactionItems([]);
       setCurrentStep(0);
+      setLoaderShow(false);
     }
   };
 
@@ -223,8 +228,13 @@ function AddTransaction() {
 
   return (
     <>
-      {!viewTransactionPage && form}
-      {viewTransactionPage && viewTransaction}
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!loaderShow && !viewTransactionPage && form}
+      {!loaderShow && viewTransactionPage && viewTransaction}
     </>
   );
 }

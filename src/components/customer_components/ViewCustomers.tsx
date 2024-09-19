@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Alert } from "react-bootstrap";
+import { Table, Button, Alert, Spinner } from "react-bootstrap";
 import { apiCall } from "../../utils/apiCall";
 import { Customer } from "../../models/models";
 import ViewCustomer from "./ViewCustomer";
 
 // ViewCustomers Component
 function ViewCustomers() {
+  const [loaderShow, setLoaderShow] = useState(true);
   const [customers, setCustomers] = useState<Customer[]>([]);
   const [selectedCustomers, setSelectedCustomers] = useState<number[]>([]);
   const [alertMessage, setAlertMessage] = useState<string>("");
@@ -33,9 +34,11 @@ function ViewCustomers() {
         ) {
           setAlertMessage(response.data["detail"]);
         }
+        setLoaderShow(false);
       } catch (error) {
         setAlertMessage("Check console for errors");
         console.error("Error fetching customers:", error);
+        setLoaderShow(false);
       }
     };
 
@@ -55,6 +58,7 @@ function ViewCustomers() {
 
   // Handle deletion of selected customers
   const handleDeactivate = async () => {
+    setLoaderShow(true);
     try {
       const deactivateCustomers: Customer[] = [];
       selectedCustomers.map((index: number) => {
@@ -81,9 +85,11 @@ function ViewCustomers() {
         setAlertMessage(response.data["detail"]);
       }
       setSelectedCustomers([]); // Reset selection
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error disabling customers:", error);
+      setLoaderShow(false);
     }
   };
 
@@ -164,15 +170,26 @@ function ViewCustomers() {
       {!showCustomer && (
         <>
           <h2 className="mt-2">Customers</h2>
-          {showAlert && alertMessage !== "" && alertMessageBox}
+          {loaderShow && (
+            <Spinner animation="border" className="mt-2">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
+          {!loaderShow && (
+            <>
+              {showAlert && alertMessage !== "" && alertMessageBox}
 
-          {customers.length > 0 && inventoryTable}
-          {customers.length == 0 && <h6 className="mt-2">No customers here</h6>}
+              {customers.length > 0 && inventoryTable}
+              {customers.length == 0 && (
+                <h6 className="mt-2">No customers here</h6>
+              )}
 
-          {selectedCustomers.length > 0 && (
-            <Button variant="danger" onClick={handleDeactivate}>
-              Disable Selected Customers
-            </Button>
+              {selectedCustomers.length > 0 && (
+                <Button variant="danger" onClick={handleDeactivate}>
+                  Disable Selected Customers
+                </Button>
+              )}
+            </>
           )}
         </>
       )}

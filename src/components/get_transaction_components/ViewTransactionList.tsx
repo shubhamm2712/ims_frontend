@@ -1,4 +1,4 @@
-import { Alert, Col, Container, Row, Table } from "react-bootstrap";
+import { Alert, Col, Container, Row, Spinner, Table } from "react-bootstrap";
 import {
   Portfolio,
   Transaction,
@@ -14,11 +14,13 @@ interface Props {
 }
 
 function ViewTransactionList({ portfolio, onBack }: Props) {
+  const [loaderShow, setLoaderShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [transactionVisible, setTransactionVisible] = useState(false);
   const [transactionToShow, setTransactionToShow] = useState<Transaction>({});
 
   const showTransaction = async (id: number) => {
+    setLoaderShow(true);
     try {
       const response = await apiCall<Transaction>(
         "GET",
@@ -29,6 +31,7 @@ function ViewTransactionList({ portfolio, onBack }: Props) {
         typeof response.data == "object" &&
         "id" in response.data
       ) {
+        setLoaderShow(false);
         setTransactionToShow(response.data);
         setTransactionVisible(true);
       } else if (
@@ -36,10 +39,12 @@ function ViewTransactionList({ portfolio, onBack }: Props) {
         "detail" in response.data
       ) {
         setAlertMessage(response.data["detail"]);
+        setLoaderShow(false);
       }
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error fetching transaction:", error);
+      setLoaderShow(false);
     }
   };
 
@@ -202,7 +207,7 @@ function ViewTransactionList({ portfolio, onBack }: Props) {
         transactionTable}
       {(!portfolio.transactionsList ||
         portfolio.transactionsList.length == 0) && (
-        <h6 className="mt-2">No transactions here</h6>
+        <h6 className="mt-4">No transactions here</h6>
       )}
     </Container>
   );
@@ -220,8 +225,13 @@ function ViewTransactionList({ portfolio, onBack }: Props) {
 
   return (
     <div className="mt-2">
-      {!transactionVisible && list}
-      {transactionVisible && one}
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      )}
+      {!loaderShow && !transactionVisible && list}
+      {!loaderShow && transactionVisible && one}
     </div>
   );
 }

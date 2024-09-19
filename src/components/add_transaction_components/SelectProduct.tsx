@@ -1,4 +1,4 @@
-import { Alert, Button, Form, Table } from "react-bootstrap";
+import { Alert, Button, Form, Spinner, Table } from "react-bootstrap";
 import { Product, Transaction, TransactionItem } from "../../models/models";
 import { useEffect, useState } from "react";
 import { apiCall } from "../../utils/apiCall";
@@ -21,6 +21,7 @@ function SelectProduct({
   changeSelectedProducts,
   transaction,
 }: Props) {
+  const [loaderShow, setLoaderShow] = useState(true);
   const [currentSelectedProducts, setCurrentSelectedProducts] =
     useState<TransactionItem[]>(selectedProducts);
 
@@ -52,9 +53,11 @@ function SelectProduct({
         ) {
           setCurrentAlert(response.data["detail"]);
         }
+        setLoaderShow(false);
       } catch (error) {
         setCurrentAlert("Check the console for errors");
         console.error("Error fetching products:", error);
+        setLoaderShow(false);
       }
     };
     fetchProducts();
@@ -154,38 +157,51 @@ function SelectProduct({
       <h6>Type: {transaction.buyOrSell}</h6>
       <h6>Total Amount: ${transaction.totalAmount}</h6>
       <h2 className="mt-4">Products</h2>
-      {currentAlert && (
-        <Alert
-          className="alert alert-danger"
-          onClose={() => {
-            setCurrentAlert("");
-          }}
-          dismissible
-        >
-          {currentAlert}
-        </Alert>
+      {loaderShow && (
+        <Spinner animation="border" className="mt-2">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
       )}
-      {currentSelectedProducts.length > 0 && selectedProductsTable}
-      {currentSelectedProducts.length == 0 && <h6>No products selected</h6>}
-      <Form.Group className="mt-4">
-        <div className="d-flex">
-          <div className="me-auto">
-            <Button variant="secondary" type="button" onClick={onPrevious}>
-              Back
-            </Button>
-          </div>
-          <div className="ms-auto me-auto">
-            <Button variant="primary" type="button" onClick={handleAddProduct}>
-              Add Product
-            </Button>
-          </div>
-          <div className="ms-auto">
-            <Button variant="primary" type="button" onClick={handleNext}>
-              Next
-            </Button>
-          </div>
-        </div>
-      </Form.Group>
+      {!loaderShow && (
+        <>
+          {currentAlert && (
+            <Alert
+              className="alert alert-danger"
+              onClose={() => {
+                setCurrentAlert("");
+              }}
+              dismissible
+            >
+              {currentAlert}
+            </Alert>
+          )}
+          {currentSelectedProducts.length > 0 && selectedProductsTable}
+          {currentSelectedProducts.length == 0 && <h6>No products selected</h6>}
+          <Form.Group className="mt-4">
+            <div className="d-flex">
+              <div className="me-auto">
+                <Button variant="secondary" type="button" onClick={onPrevious}>
+                  Back
+                </Button>
+              </div>
+              <div className="ms-auto me-auto">
+                <Button
+                  variant="primary"
+                  type="button"
+                  onClick={handleAddProduct}
+                >
+                  Add Product
+                </Button>
+              </div>
+              <div className="ms-auto">
+                <Button variant="primary" type="button" onClick={handleNext}>
+                  Next
+                </Button>
+              </div>
+            </div>
+          </Form.Group>
+        </>
+      )}
     </>
   );
 

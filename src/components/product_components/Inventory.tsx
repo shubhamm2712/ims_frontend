@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Table, Button, Alert } from "react-bootstrap";
+import { Table, Button, Alert, Spinner } from "react-bootstrap";
 import { apiCall } from "../../utils/apiCall";
 import { Product } from "../../models/models";
 import ViewProduct from "./ViewProduct";
 
 // Inventory Component
 function Inventory() {
+  const [loaderShow, setLoaderShow] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
   const [alertMessage, setAlertMessage] = useState<string>("");
@@ -27,15 +28,18 @@ function Inventory() {
               return -1;
             })
           );
+          setLoaderShow(false);
         } else if (
           typeof response.data === "object" &&
           "detail" in response.data
         ) {
           setAlertMessage(response.data["detail"]);
+          setLoaderShow(false);
         }
       } catch (error) {
         setAlertMessage("Check console for errors");
         console.error("Error fetching products:", error);
+        setLoaderShow(false);
       }
     };
 
@@ -55,6 +59,7 @@ function Inventory() {
 
   // Handle deletion of selected products
   const handleDeactivate = async () => {
+    setLoaderShow(true);
     try {
       const deactivateProducts: Product[] = [];
       selectedProducts.map((index: number) => {
@@ -81,9 +86,11 @@ function Inventory() {
         setAlertMessage(response.data["detail"]);
       }
       setSelectedProducts([]); // Reset selection
+      setLoaderShow(false);
     } catch (error) {
       setAlertMessage("Check console for errors");
       console.error("Error disabling products:", error);
+      setLoaderShow(false);
     }
   };
 
@@ -167,15 +174,26 @@ function Inventory() {
       {!showProduct && (
         <>
           <h2 className="mt-2">Inventory</h2>
-          {showAlert && alertMessage !== "" && alertMessageBox}
+          {loaderShow && (
+            <Spinner animation="border" className="mt-2">
+              <span className="visually-hidden">Loading...</span>
+            </Spinner>
+          )}
+          {!loaderShow && (
+            <>
+              {showAlert && alertMessage !== "" && alertMessageBox}
 
-          {products.length > 0 && inventoryTable}
-          {products.length == 0 && <h6 className="mt-2">No products here</h6>}
+              {products.length > 0 && inventoryTable}
+              {products.length == 0 && (
+                <h6 className="mt-2">No products here</h6>
+              )}
 
-          {selectedProducts.length > 0 && (
-            <Button variant="danger" onClick={handleDeactivate}>
-              Disable Selected Products
-            </Button>
+              {selectedProducts.length > 0 && (
+                <Button variant="danger" onClick={handleDeactivate}>
+                  Disable Selected Products
+                </Button>
+              )}
+            </>
           )}
         </>
       )}
