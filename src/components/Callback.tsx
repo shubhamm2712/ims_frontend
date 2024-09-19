@@ -39,7 +39,9 @@ function Callback() {
         }
         navigate("/dashboard");
       } else {
-        setMessage("Inform the developer about this error");
+        setMessage(
+          "If you haven't clicked the back button, inform the developer about this error.\n Redirecting in 5 seconds..."
+        );
         console.log(response);
         setTimeout(() => {
           navigate("/");
