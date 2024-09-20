@@ -22,7 +22,7 @@ The **IMS Frontend** is the user interface for the Inventory Management System (
 1. **Clone the repository**:
 
    ```bash
-   git clone <your-repo-url>
+   git clone <your forked version of this repo>
    cd ims-frontend
    ```
 

@@ -74,6 +74,27 @@ function Home() {
                 GitHub Link
               </a>
             </h4>
+            <br></br>
+            <h4>
+              Please give feedback or inform about the issues. Leave a comment
+              or create an issue on{" "}
+              <a
+                href="https://github.com/shubhamm2712/InventoryManagementSystem"
+                target="_blank"
+                style={{ color: "black" }}
+              >
+                GitHub
+              </a>{" "}
+              or connect on{" "}
+              <a
+                href="https://www.linkedin.com/in/shubham-m27/"
+                target="_blank"
+                style={{ color: "black" }}
+              >
+                LinkedIn
+              </a>
+              .
+            </h4>
           </Col>
           <Col></Col>
         </Row>
