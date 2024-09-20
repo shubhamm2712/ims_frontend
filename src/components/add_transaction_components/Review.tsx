@@ -12,6 +12,9 @@ function Review({ onPrevious, onNext, transaction, transactionItems }: Props) {
   return (
     <>
       <h2 className="mt-2">Review Transaction</h2>
+      <p className="mb-2">
+        Transaction cannot be updated or deleted once added.
+      </p>
 
       <Row>
         <Col>

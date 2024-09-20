@@ -134,39 +134,48 @@ function Inventory() {
   };
 
   const inventoryTable = (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Disable</th>
-          <th>Name</th>
-          <th>Type</th>
-          <th>Quantity</th>
-          <th>Avg Rate</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((product, index) => (
-          <tr key={product.id}>
-            <td>
-              <input
-                type="checkbox"
-                checked={selectedProducts.includes(index)}
-                onChange={() => handleSelect(index)}
-                disabled={product.usedInTransaction != 0}
-              />
-            </td>
-            <td onClick={() => handleProductClicked(index)}>{product.name}</td>
-            <td onClick={() => handleProductClicked(index)}>{product.type}</td>
-            <td onClick={() => handleProductClicked(index)}>
-              {product.quantity}
-            </td>
-            <td onClick={() => handleProductClicked(index)}>
-              {product.avgBuyRate}
-            </td>
+    <>
+      <p className="mb-2">
+        Products not used in any transaction can be disabled.
+      </p>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Disable</th>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Quantity</th>
+            <th>Avg Rate</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {products.map((product, index) => (
+            <tr key={product.id}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={selectedProducts.includes(index)}
+                  onChange={() => handleSelect(index)}
+                  disabled={product.usedInTransaction != 0}
+                />
+              </td>
+              <td onClick={() => handleProductClicked(index)}>
+                {product.name}
+              </td>
+              <td onClick={() => handleProductClicked(index)}>
+                {product.type}
+              </td>
+              <td onClick={() => handleProductClicked(index)}>
+                {product.quantity}
+              </td>
+              <td onClick={() => handleProductClicked(index)}>
+                {product.avgBuyRate}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
   );
 
   return (

@@ -126,43 +126,48 @@ function ViewCustomers() {
   };
 
   const inventoryTable = (
-    <Table striped bordered hover>
-      <thead>
-        <tr>
-          <th>Disable</th>
-          <th>Name</th>
-          <th>Address</th>
-          <th>Phone</th>
-          <th>Tax Number</th>
-        </tr>
-      </thead>
-      <tbody>
-        {customers.map((customer, index) => (
-          <tr key={customer.id}>
-            <td>
-              <input
-                type="checkbox"
-                checked={selectedCustomers.includes(index)}
-                onChange={() => handleSelect(index)}
-                disabled={customer.usedInTransaction != 0}
-              />
-            </td>
-            <td onClick={() => handleCustomerClicked(index)}>
-              {customer.name}
-            </td>
-            <td onClick={() => handleCustomerClicked(index)}>
-              {customer.address}
-            </td>
-            <td onClick={() => handleCustomerClicked(index)}>
-              {customer.phone}
-            </td>
-            <td onClick={() => handleCustomerClicked(index)}>
-              {customer.taxNumber}
-            </td>
+    <>
+      <p className="mb-2">
+        Customers not added in any transaction can be disabled.
+      </p>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Disable</th>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Tax Number</th>
           </tr>
-        ))}
-      </tbody>
-    </Table>
+        </thead>
+        <tbody>
+          {customers.map((customer, index) => (
+            <tr key={customer.id}>
+              <td>
+                <input
+                  type="checkbox"
+                  checked={selectedCustomers.includes(index)}
+                  onChange={() => handleSelect(index)}
+                  disabled={customer.usedInTransaction != 0}
+                />
+              </td>
+              <td onClick={() => handleCustomerClicked(index)}>
+                {customer.name}
+              </td>
+              <td onClick={() => handleCustomerClicked(index)}>
+                {customer.address}
+              </td>
+              <td onClick={() => handleCustomerClicked(index)}>
+                {customer.phone}
+              </td>
+              <td onClick={() => handleCustomerClicked(index)}>
+                {customer.taxNumber}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    </>
   );
 
   return (
