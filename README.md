@@ -26,19 +26,24 @@ The **IMS Frontend** is the user interface for the Inventory Management System (
    cd ims-frontend
    ```
 
-2. **Install dependencies:**
+2. **Change Auth0 credentials and Backend end point:**
+
+   - Backend end point is in apiCall.ts file
+   - Auth0 Domain and Client Id is in Home, Callback and Dashboard components
+
+3. **Install dependencies:**
 
    ```bash
    npm install
    ```
 
-3. **Run the app in development mode:**
+4. **Run the app in development mode:**
 
    ```bash
    npm run dev
    ```
 
-4. **Build for production:**
+5. **Build for production:**
 
    ```bash
    npm run build
