@@ -28,8 +28,8 @@ The **IMS Frontend** is the user interface for the Inventory Management System (
 
 2. **Change Auth0 credentials and Backend end point:**
 
-   - Backend end point is in apiCall.ts file
-   - Auth0 Domain and Client Id is in Home, Callback and Dashboard components
+   - Backend end point is in [apiCall.ts](https://github.com/shubhamm2712/ims_frontend/blob/main/src/utils/apiCall.ts) file
+   - Auth0 Domain and Client Id is in [Home](https://github.com/shubhamm2712/ims_frontend/blob/main/src/components/Home.tsx), [Callback](https://github.com/shubhamm2712/ims_frontend/blob/main/src/components/Callback.tsx) and [Dashboard](https://github.com/shubhamm2712/ims_frontend/blob/main/src/components/Dashboard.tsx) components
 
 3. **Install dependencies:**
 
