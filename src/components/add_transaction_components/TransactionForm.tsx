@@ -88,7 +88,9 @@ function TransactionForm({
       )}
       <Form className="mt-2">
         <Form.Group controlId="invoiceNumber">
-          <Form.Label>Invoice Number</Form.Label>
+          <Form.Label>
+            Invoice Number <span style={{ color: "red" }}>*</span>
+          </Form.Label>
           <Form.Control
             type="input"
             name="invoiceNumber"
@@ -101,7 +103,9 @@ function TransactionForm({
         </Form.Group>
 
         <Form.Group controlId="date">
-          <Form.Label>Date</Form.Label>
+          <Form.Label>
+            Date <span style={{ color: "red" }}>*</span>
+          </Form.Label>
           <Form.Control
             type="date"
             name="date"
@@ -138,7 +142,9 @@ function TransactionForm({
         </Form.Group>
 
         <Form.Group controlId="totalAmount">
-          <Form.Label>Total Amount</Form.Label>
+          <Form.Label>
+            Total Amount <span style={{ color: "red" }}>*</span>
+          </Form.Label>
           <Form.Control
             type="number"
             name="totalAmount"
@@ -152,7 +158,9 @@ function TransactionForm({
         </Form.Group>
 
         <Form.Group controlId="buyOrSell">
-          <Form.Label>Transaction Type</Form.Label>
+          <Form.Label>
+            Transaction Type <span style={{ color: "red" }}>*</span>
+          </Form.Label>
           <Form.Control
             as="select"
             name="buyOrSell"

@@ -91,7 +91,7 @@ function AddCustomer() {
         <form onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="name" className="form-label">
-              Customer Name
+              Customer Name <span style={{ color: "red" }}>*</span>
             </label>
             <input
               type="text"
@@ -126,7 +126,7 @@ function AddCustomer() {
               Customer Phone
             </label>
             <input
-              type="text"
+              type="number"
               className="form-control"
               id="phone"
               name="phone"

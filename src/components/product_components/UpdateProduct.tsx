@@ -99,7 +99,7 @@ function UpdateProduct({ product, onCancel, onUpdated }: Props) {
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
               <label htmlFor="name" className="form-label">
-                Product Name
+                Product Name <span style={{ color: "red" }}>*</span>
               </label>
               <input
                 type="text"
