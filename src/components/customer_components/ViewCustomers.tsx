@@ -151,16 +151,28 @@ function ViewCustomers() {
                   disabled={customer.usedInTransaction != 0}
                 />
               </td>
-              <td onClick={() => handleCustomerClicked(index)}>
+              <td
+                onClick={() => handleCustomerClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {customer.name}
               </td>
-              <td onClick={() => handleCustomerClicked(index)}>
+              <td
+                onClick={() => handleCustomerClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {customer.address}
               </td>
-              <td onClick={() => handleCustomerClicked(index)}>
+              <td
+                onClick={() => handleCustomerClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {customer.phone}
               </td>
-              <td onClick={() => handleCustomerClicked(index)}>
+              <td
+                onClick={() => handleCustomerClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {customer.taxNumber}
               </td>
             </tr>

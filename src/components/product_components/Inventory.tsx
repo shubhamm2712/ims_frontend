@@ -159,16 +159,28 @@ function Inventory() {
                   disabled={product.usedInTransaction != 0}
                 />
               </td>
-              <td onClick={() => handleProductClicked(index)}>
+              <td
+                onClick={() => handleProductClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {product.name}
               </td>
-              <td onClick={() => handleProductClicked(index)}>
+              <td
+                onClick={() => handleProductClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {product.type}
               </td>
-              <td onClick={() => handleProductClicked(index)}>
+              <td
+                onClick={() => handleProductClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {product.quantity}
               </td>
-              <td onClick={() => handleProductClicked(index)}>
+              <td
+                onClick={() => handleProductClicked(index)}
+                style={{ cursor: "pointer" }}
+              >
                 {product.avgBuyRate}
               </td>
             </tr>

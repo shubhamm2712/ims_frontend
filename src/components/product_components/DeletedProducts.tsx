@@ -169,8 +169,18 @@ function DeletedProducts() {
                 onChange={() => handleSelectRecover(index)}
               />
             </td>
-            <td onClick={() => handleProductClicked(index)}>{product.name}</td>
-            <td onClick={() => handleProductClicked(index)}>{product.type}</td>
+            <td
+              onClick={() => handleProductClicked(index)}
+              style={{ cursor: "pointer" }}
+            >
+              {product.name}
+            </td>
+            <td
+              onClick={() => handleProductClicked(index)}
+              style={{ cursor: "pointer" }}
+            >
+              {product.type}
+            </td>
             <td>
               <input
                 type="checkbox"

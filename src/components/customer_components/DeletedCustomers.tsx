@@ -168,10 +168,16 @@ function DeletedCustomers() {
                 onChange={() => handleSelectRecover(index)}
               />
             </td>
-            <td onClick={() => handleCustomerClicked(index)}>
+            <td
+              onClick={() => handleCustomerClicked(index)}
+              style={{ cursor: "pointer" }}
+            >
               {customer.name}
             </td>
-            <td onClick={() => handleCustomerClicked(index)}>
+            <td
+              onClick={() => handleCustomerClicked(index)}
+              style={{ cursor: "pointer" }}
+            >
               {customer.address}
             </td>
             <td>

@@ -134,6 +134,7 @@ function SelectCustomer({
                       customerMetaData: customer.metaData,
                     });
                   }}
+                  style={{ cursor: "pointer" }}
                 >
                   <Row>
                     <Col xs={1} className="d-flex align-items-center">
@@ -171,6 +172,7 @@ function SelectCustomer({
                     customerTaxNumber: "",
                   });
                 }}
+                style={{ cursor: "pointer" }}
               >
                 <Row>
                   <Col xs={1} className="d-flex align-items-center">

@@ -113,6 +113,7 @@ function AddProductPage({
                 <ListGroup.Item
                   key={product.id}
                   onClick={() => handleProductClick(product)}
+                  style={{ cursor: "pointer" }}
                 >
                   <Row>
                     <Col
@@ -138,12 +139,12 @@ function AddProductPage({
                         </Col>
 
                         {/* Product Quantity */}
-                        <Col md={3}>
+                        <Col md={2}>
                           <strong>Quantity:</strong> {product.quantity}
                         </Col>
 
                         {/* Avg Buy Rate */}
-                        <Col md={3}>
+                        <Col md={4}>
                           <strong>Avg Buy Rate: $</strong>{" "}
                           {product.avgBuyRate?.toFixed(2)}
                         </Col>
@@ -255,6 +256,7 @@ function AddProductPage({
             onClick={() =>
               setSelectProduct({ ...emptyTransactionItem, productId: -1 })
             }
+            style={{ cursor: "pointer" }}
           >
             <Row>
               <Col
