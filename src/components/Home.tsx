@@ -1,24 +1,24 @@
 import { Col, Container, Navbar, Row } from "react-bootstrap";
 
 import "../css/Home.css";
-import Generate from "../utils/generate";
+// import Generate from "../utils/generate";
 
 function Home() {
-  var login_link = "";
+  // var login_link = "";
 
-  const verifier = Generate["verifier"];
-  const challenge = Generate["challenge"];
+  // const verifier = Generate["verifier"];
+  // const challenge = Generate["challenge"];
 
-  localStorage.setItem("verifier", verifier);
+  // localStorage.setItem("verifier", verifier);
 
-  const url = window.location.href + "callback";
+  // const url = window.location.href + "callback";
 
-  login_link =
-    "https://dev-kz2fpaq4oiht7zgs.us.auth0.com/authorize?response_type=code&code_challenge=" +
-    challenge +
-    "&code_challenge_method=S256&client_id=yUnBLFVRvSWGNFe8Kt1BxlRBBKf6GFNB&redirect_uri=" +
-    url +
-    "&audience=https://www.imsystem.com&scope=openid%20profile";
+  // login_link =
+  // "https://dev-kz2fpaq4oiht7zgs.us.auth0.com/authorize?response_type=code&code_challenge=" +
+  // challenge +
+  // "&code_challenge_method=S256&client_id=yUnBLFVRvSWGNFe8Kt1BxlRBBKf6GFNB&redirect_uri=" +
+  // url +
+  // "&audience=https://www.imsystem.com&scope=openid%20profile";
 
   return (
     <>
