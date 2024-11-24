@@ -33,7 +33,8 @@ function Home() {
           <Navbar.Toggle />
           <Navbar.Collapse className="justify-content-end">
             <Navbar.Text>
-              <a href={login_link}>Login / Signup</a>
+              {/* <a href={login_link}>Login / Signup</a> */}
+              <a href="#">Disabled login</a>
             </Navbar.Text>
           </Navbar.Collapse>
         </Container>
@@ -63,6 +64,11 @@ function Home() {
               </li>
             </ul>
             <br></br>
+            <br></br>
+            <h3>
+              This site has been deactivated, connect with me on LinkedIn to
+              activate it
+            </h3>
             <br></br>
             <h5>
               Explore the github repo, to learn more about this project:{" "}
